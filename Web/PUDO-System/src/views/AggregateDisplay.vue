@@ -1,70 +1,60 @@
 <template>
     <div class="container">
-        <h1>Aggregate Display</h1>
-        <p> Berth A1 {{ this.berthA1CarNumber }} </p>
-        <p> Berth A2 {{ this.berthA2CarNumber }} </p>
-        <p> Berth A3 {{ this.berthA3CarNumber }} </p>
-        <p> Berth A4 {{ this.berthA4CarNumber }} </p>
-        <p> Berth PWD {{ this.berthPwdCarNumber }} </p>
+        <div class="top">
+            <div class="left">
+            <div class="heading">
+                <div class="berth-title">Berth</div>
+                <div class="vehicle-title">Vehicle</div>
+                <div class="time-left-title">Time Left</div>
+            </div>
+            <div class="all-berth-info">
+                <AggregateDisplayBerthInfo 
+                    berthName='A1' 
+                    :berthCarNumber=this.berthA1CarNumber
+                    berthTime="00:00" 
+                />
 
-        <div class="berth-details">
-            <div class="berth-label">
-                <div class="berth-label-text">
-                    Berth
+                <AggregateDisplayBerthInfo 
+                    berthName='A2' 
+                    :berthCarNumber=this.berthA2CarNumber
+                    berthTime="00:00"
+                    :backgroundColorWhite=true
+                />
+
+                <AggregateDisplayBerthInfo 
+                    berthName='A3' 
+                    :berthCarNumber=this.berthA3CarNumber
+                    berthTime="00:00" 
+                />
+
+                <AggregateDisplayBerthInfo 
+                    berthName='Priority' 
+                    :berthCarNumber=this.berthPwdCarNumber
+                    berthTime="00:00" 
+                    :isPWD="true"
+                    :backgroundColorWhite=true
+                />
+            </div>
+            <div class="qr-code-section">
+                <div class="qr-code-text">
+                    Stay Updated on the crowd status by scanning the QR code here!
                 </div>
-            </div>
-            <div class="berth-car-number">
-                Vehicle
-            </div>
-            <div class="berth-status">
-                Time Left
+                <div class="qr-code-image">
+                    <img class="qr-code-image-size" src="../assets/LivePudoStatusQRCode.png">
+                </div>
             </div>
         </div>
 
-        <AggregateDisplayBerthInfo 
-            berthName='A1' 
-            :berthCarNumber=this.berthA1CarNumber
-            berthTime="00:00" 
-        />
-
-        <AggregateDisplayBerthInfo 
-            berthName='A2' 
-            :berthCarNumber=this.berthA2CarNumber
-            berthTime="00:00" 
-        />
-
-        <AggregateDisplayBerthInfo 
-            berthName='A3' 
-            :berthCarNumber=this.berthA3CarNumber
-            berthTime="00:00" 
-        />
-
-        <AggregateDisplayBerthInfo 
-            berthName='A4' 
-            :berthCarNumber=this.berthA4CarNumber
-            berthTime="00:00" 
-        />
-
-        <AggregateDisplayBerthInfo 
-            berthName='PWD' 
-            :berthCarNumber=this.berthPwdCarNumber
-            berthTime="00:00" 
-        />
-
-        <div class="berth-details">
-            <div class="berth-label">
-                <div class="berth-label-text">
-                    A1
-                </div>
-            </div>
-            <div class="berth-car-number">
-                {{ this.berthA1CarNumber }}
-            </div>
-            <div class="berth-status">
-                Here
+        <div class="right">
+            <div class="advertisement">
+                <AdvertisementSlider />
             </div>
         </div>
-        <!-- <button @click="updateBerthData">Update [If not working live]</button> -->
+
+        </div>
+        <div class="bottom">
+            <marquee direction="left">Brought to you by Beep Beep!</marquee>
+        </div>
     </div>
 </template>
 
@@ -73,7 +63,7 @@ import {ref, onValue} from "firebase/database";
 import { database, berthA1, berthA2, berthA3, berthA4, berthPwd } from "../firebase/init"
 
 import AggregateDisplayBerthInfo from "../components/AggregateDisplayBerthInfo.vue"
-
+import AdvertisementSlider from "../components/AdvertisementSlider.vue"
 
 export default {
     name:"AggregateDisplay",
@@ -86,16 +76,12 @@ export default {
             berthPwdCarNumber: null,
         };
     },
-    components: {AggregateDisplayBerthInfo},
+    components: {
+        AggregateDisplayBerthInfo, 
+        AdvertisementSlider
+    },
     methods: {
         getAndSetBerthData() {
-            // Update Bay Details from live DB
-            // this.berthA1CarNumber = " - "
-            // this.berthA2CarNumber = " - "
-            // this.berthA3CarNumber = " - "
-            // this.berthA4CarNumber = " - "
-            // this.berthPwdCarNumber = "SJG 1232 F"
-
             const liveBerthInfoRef = ref(database, 'berth-live-info');
 
             onValue(liveBerthInfoRef, (snapshot) => {
@@ -128,43 +114,85 @@ export default {
 .container {
     display: flex;
     flex-direction: column;
-    background-color: wheat;
+    /* background-color: wheat; */
+    font-family: Inter;
 }
 
-.berth-details {
+.top {
     display: flex;
     flex-direction: row;
-    background-color: #D9D9D9;
-    padding: 30px 20px;
+}
+
+.left {
+    /* background-color: orange; */
+    flex-basis: 67%;
+    display: flex;
+    flex-direction: column;
+}
+
+.heading {
+    /* background-color: red; */
+    display: flex;
+    flex-direction: row;
     text-align: center;
-    /* margin: 15px; */
+    padding: 10px 0px;
+    margin: 10px 25px;
+    font-size: 57px;
+    color: #66AEAA;
+}
+
+.berth-title {
+    flex-basis: 33%;
+}
+
+.vehicle-title {
+    flex-basis: 33%;
+}
+
+.time-left-title {
+    flex-basis: 33%;
+}
+
+.qr-code-section {
+    display: flex;
+    flex-direction: row;
+    /* background-image: linear-gradient(to right, #fff , #88CBC7); */
+    background-image: linear-gradient(to right, #fff , rgba(136, 203, 199, 0.63));
+    margin: 15px 100px;
     border-radius: 20px;
+    padding: 20px
 }
 
-.berth-label {
+.qr-code-text {
+    flex-basis: 80%;
+    font-size: 38px;
+    color: #535353;
+    padding: 20px;
+}
+
+.qr-code-image {
+    flex-basis: 20%;
+}
+
+.qr-code-image-size {
+    width: 135px;
+    height: 135px;
+    border-radius: 10px;
+}
+
+.right {
+    /* background-color: rebeccapurple; */
     flex-basis: 33%;
-    /* background-color: #88cbc7;
-    padding: 20px;
-    border-radius: 20px; */
-    /* width: 5%;
-    max-width: 5px; */
 }
 
-.berth-label-text {
-    background-color: #88cbc7;
-    padding: 20px;
-    border-radius: 20px;
-    margin: 0px 150px;
+.advertisement-image {
+    height: 100px;
+    width: 300px;
 }
 
-.berth-car-number {
-    flex-basis: 33%;
-    padding: 20px;
+.bottom {
+    font-size: 22px;
+    color: #535353;
+    font-style: italic;
 }
-
-.berth-status {
-    flex-basis: 33%;
-    padding: 20px;
-}
-
 </style>

@@ -1,14 +1,24 @@
 <template>
-    <div class="berth-details">
+    <div class="berth-details" :class="backgroundColorWhite ? 'berth-details-background-white' : 'berth-details-background-gray' ">
         <div class="berth-label">
-            <div class="berth-label-text">
+            <div class="berth-label-text" :class="isPWD ? 'berth-label-background-pwd' : 'berth-label-background-normal' ">
                 {{ this.berthName }}
             </div>
         </div>
-        <div class="berth-car-number">
+        <div class="berth-car-number" 
+        :class= "{
+            'berth-car-number-text-red': isLessThanOneMinuteLeft,
+            'berth-car-number-text-black': !isLessThanOneMinuteLeft,
+            'berth-car-number-text-blink': isTimeUp
+        }">
             {{ this.berthCarNumber }}
         </div>
-        <div class="berth-status">
+        <div class="berth-status"
+        :class= "{
+            'berth-car-number-text-red': isLessThanOneMinuteLeft,
+            'berth-car-number-text-black': !isLessThanOneMinuteLeft,
+            'berth-car-number-text-blink': isTimeUp
+        }">
             {{ this.berthTime }}
         </div>
     </div>
@@ -17,7 +27,22 @@
 <script>
 export default {
     name: "AggregateDisplayBerthInfo",
-    props:["berthName", "berthCarNumber", "berthTime"]
+    props:["berthName", "berthCarNumber", "berthTime", "backgroundColorWhite", "isPWD"],
+    data() {
+        return {
+            timeDoneSinceWaiting: 0,
+            isLessThanOneMinuteLeft: true,
+            isTimeUp: true
+        }
+    },
+    methods: {
+        startTimer() {
+            console.log("Started Timer")
+        }
+    },
+    mounted() {
+        this.startTimer()
+    }
 }
 </script>
 
@@ -25,27 +50,40 @@ export default {
 .berth-details {
     display: flex;
     flex-direction: row;
-    background-color: #D9D9D9;
-    padding: 30px 20px;
+    /* background-color: #D9D9D9; */
+    padding: 20px 20px;
     text-align: center;
-    margin: 15px;
+    margin: 10px 15px;
     border-radius: 20px;
+    font-size: 51px;
+}
+
+.berth-details-background-white {
+    background-color: #fff;
+}
+
+.berth-details-background-gray {
+    background-color: #D9D9D9;
 }
 
 .berth-label {
     flex-basis: 33%;
-    /* background-color: #88cbc7;
-    padding: 20px;
-    border-radius: 20px; */
-    /* width: 5%;
-    max-width: 5px; */
 }
 
 .berth-label-text {
-    background-color: #88cbc7;
+    /* background-color: #88cbc7; */
     padding: 20px;
     border-radius: 20px;
-    margin: 0px 150px;
+    margin: 0px 80px;
+    color: #fff;
+}
+
+.berth-label-background-normal {
+    background-color: #88cbc7;
+}
+
+.berth-label-background-pwd {
+    background-color: #6B9AE0;
 }
 
 .berth-car-number {
@@ -53,8 +91,40 @@ export default {
     padding: 20px;
 }
 
+.berth-car-number-text-red {
+    color: red;
+}
+
+.berth-car-number-text-blink {
+    animation: blink 1s linear infinite;
+}
+
+@keyframes blink{
+    0%{opacity: 0;}
+    33%{opacity: 0.33;}
+    50%{opacity: 0.5;}
+    67%{opacity: .67;}
+    100%{opacity: 1;}
+}
+
+.berth-car-number-text-black {
+    color: #000;
+}
+
 .berth-status {
     flex-basis: 33%;
     padding: 20px;
+}
+
+.berth-status-text-red {
+    color: red;
+}
+
+.berth-status-text-blink {
+    animation: blink 1s linear infinite;
+}
+
+.berth-status-text-black {
+    color: #000;
 }
 </style>
