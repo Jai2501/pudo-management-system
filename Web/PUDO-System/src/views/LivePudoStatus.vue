@@ -1,5 +1,42 @@
 <template>
     <div class="container">
+        <div class="top">
+            <div class="logo"
+            ></div>
+            <div class="info-text">
+
+            </div>
+        </div>
+
+        <div class="middle">
+            <div class="heading">
+
+            </div>
+            <div class="berth-details">
+
+            </div>
+        </div>
+
+        <div class="bottom">
+            <div class="human-crowd">
+                <div class="human-crowd-logo">
+
+                </div>
+                <div class="human-crowd-info-text">
+
+                </div>
+            </div>
+            <div class="traffic-congestion">
+                <div class="traffic-congestion-logo">
+
+                </div>
+                <div class="traffic-congestion-info-text">
+
+                </div>
+            </div>
+        </div>
+
+
         <img class="raffles-city-logo" src="../assets/RafflesCity.png" alt="Fuck">
 
         <h1>Raffles City Live PUDO Info</h1>

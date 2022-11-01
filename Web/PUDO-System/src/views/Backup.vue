@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import {ref, onValue, set} from "firebase/database";
+import {ref, onValue, set, update} from "firebase/database";
 import { database, berthA1, berthA2, berthA3, berthA4, berthPwd, trafficStatus, humanCrowdStatus } from "../firebase/init"
 
 export default {
@@ -85,7 +85,7 @@ export default {
             console.log(berthNumber)
 
             const db = database
-            set(ref(db, 'berth-live-info'), {
+            update(ref(db, 'berth-live-info'), {
                 'berth-a-1': this.berthA1CarNumber,
                 'berth-a-2': this.berthA2CarNumber,
                 'berth-a-3': this.berthA3CarNumber,

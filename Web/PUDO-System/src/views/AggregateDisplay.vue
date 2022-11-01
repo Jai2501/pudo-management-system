@@ -7,32 +7,41 @@
                 <div class="vehicle-title">Vehicle</div>
                 <div class="time-left-title">Time Left</div>
             </div>
-            <div class="all-berth-info">
-                <AggregateDisplayBerthInfo 
+            <div class="all-berth-info" >
+                <AggregateDisplayBerthInfo
                     berthName='A1' 
                     :berthCarNumber=this.berthA1CarNumber
-                    berthTime="00:00" 
+                    :berthTime=this.berthA1Time
+                    @update-berth="updateBerth"
+                    v-if="this.berthA1Time !== null"
+                    :key=this.berthA1Time
                 />
 
                 <AggregateDisplayBerthInfo 
-                    berthName='A2' 
+                    berthName='A2'
                     :berthCarNumber=this.berthA2CarNumber
-                    berthTime="00:00"
+                    :berthTime=berthA2Time
                     :backgroundColorWhite=true
+                    @update-berth="updateBerth"
+                    v-if="this.berthA2Time !== null"
                 />
 
                 <AggregateDisplayBerthInfo 
                     berthName='A3' 
                     :berthCarNumber=this.berthA3CarNumber
-                    berthTime="00:00" 
+                    :berthTime=berthA3Time
+                    @update-berth="updateBerth"
+                    v-if="this.berthA3Time !== null"
                 />
 
                 <AggregateDisplayBerthInfo 
                     berthName='Priority' 
                     :berthCarNumber=this.berthPwdCarNumber
-                    berthTime="00:00" 
+                    :berthTime=this.berthPwdTime
                     :isPWD="true"
                     :backgroundColorWhite=true
+                    @update-berth="updateBerth"
+                    v-if="this.berthPwdTime !== null"
                 />
             </div>
             <div class="qr-code-section">
@@ -59,7 +68,7 @@
 </template>
 
 <script>
-import {ref, onValue} from "firebase/database";
+import {ref, set, onValue, update} from "firebase/database";
 import { database, berthA1, berthA2, berthA3, berthA4, berthPwd } from "../firebase/init"
 
 import AggregateDisplayBerthInfo from "../components/AggregateDisplayBerthInfo.vue"
@@ -74,6 +83,12 @@ export default {
             berthA3CarNumber: null,
             berthA4CarNumber: null,
             berthPwdCarNumber: null,
+            berthA1Time: null,
+            berthA2Time: null,
+            berthA3Time: null,
+            berthA4Time: null,
+            berthPwdTime: null,
+            millisecondsInFiveMinutes: 300000
         };
     },
     components: {
@@ -81,10 +96,39 @@ export default {
         AdvertisementSlider
     },
     methods: {
-        getAndSetBerthData() {
+        updateBerth(berthToBeUpdated) {
+            const db = database
+
+            switch(berthToBeUpdated) {
+                case "A1":
+                    // this.berthA1Time = new Date().getTime() + this.millisecondsInFiveMinutes
+                    update(ref(db, 'berth-live-info'), {
+                        'berth-a-1-time': new Date().getTime() + this.millisecondsInFiveMinutes
+                    })
+                    break;
+                case "A2":
+                    update(ref(db, 'berth-live-info'), {
+                        'berth-a-2-time': new Date().getTime() + this.millisecondsInFiveMinutes
+                    })
+                    break;
+                case "A3":
+                    update(ref(db, 'berth-live-info'), {
+                        'berth-a-3-time': new Date().getTime() + this.millisecondsInFiveMinutes
+                    })
+                    break;
+                case "Priority":
+                    update(ref(db, 'berth-live-info'), {
+                        'berth-pwd-time': new Date().getTime() + this.millisecondsInFiveMinutes
+                    })
+                    break;
+                default:
+                    console.log("Cannot Update")
+            }
+        },
+        async getBerthData() {
             const liveBerthInfoRef = ref(database, 'berth-live-info');
 
-            onValue(liveBerthInfoRef, (snapshot) => {
+                onValue(liveBerthInfoRef, (snapshot) => {
                 const data = snapshot.val()
                 console.log("Values Obatined/Changed")
 
@@ -93,6 +137,29 @@ export default {
                 this.berthA3CarNumber = data[berthA3]
                 this.berthA4CarNumber = data[berthA4]
                 this.berthPwdCarNumber = data[berthPwd]
+
+                this.berthA1Time = data[berthA1 + "-time"]
+                this.berthA2Time = data[berthA2 + "-time"]
+                this.berthA3Time = data[berthA3 + "-time"]
+                this.berthA4Time = data[berthA4 + "-time"]
+                this.berthPwdTime = data[berthPwd + "-time"]
+            })
+        },
+        async setBerthSampleData() {
+            const db = database
+
+            set(ref(db, 'berth-live-info'), {
+                'berth-a-1': "SGJ2501L",
+                'berth-a-2': "SGA1111C",
+                'berth-a-3': "SGG2222W",
+                'berth-a-4': "SGK3333C",
+                'berth-pwd': "SGZ9999Y",
+
+                'berth-a-1-time': (new Date().getTime() + this.millisecondsInFiveMinutes),
+                'berth-a-2-time': (new Date().getTime() + this.millisecondsInFiveMinutes),
+                'berth-a-3-time': (new Date().getTime() + this.millisecondsInFiveMinutes),
+                'berth-a-4-time': (new Date().getTime() + this.millisecondsInFiveMinutes),
+                'berth-pwd-time': (new Date().getTime() + this.millisecondsInFiveMinutes)
             })
         }
     },
@@ -105,7 +172,9 @@ export default {
         this.berthA4CarNumber = " - "
         this.berthPwdCarNumber = " - "
 
-        this.getAndSetBerthData()
+        this.setBerthSampleData()
+
+        this.getBerthData()
     },
 }
 </script>
