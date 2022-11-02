@@ -1,7 +1,14 @@
 <template>
   <div class="container">
-      <h1>Berth Display {{ this.berthDisplayTitle }}</h1>
-      <h2>{{ this.berthCarNumber }}</h2>
+      <div class="berth-number"
+      :class="{
+          'berth-number-priority': this.isPriority
+      }">
+          {{ this.berthDisplayTitle }}
+      </div>
+      <div class="car-number">
+            {{ this.berthCarNumber }}
+      </div>
   </div>
 </template>
 
@@ -16,7 +23,8 @@ export default {
         return {
             berthDisplayTitle: null,
             berthFetchName: null,
-            berthCarNumber: null
+            berthCarNumber: null,
+            isPriority: false
         }
     },
     methods: {
@@ -49,8 +57,9 @@ export default {
                     this.berthFetchName = berthA4
                     break
                 default:
-                    this.berthDisplayTitle = "PWD"
+                    this.berthDisplayTitle = "Priority"
                     this.berthFetchName = berthPwd
+                    this.isPriority = true
             }
         }
     },
@@ -62,6 +71,35 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 
+.berth-number {
+    background: #88CBC7;
+    padding: 75px 75px;
+    border-radius: 90px;
+    color: #fff;
+    font-size: 80px;
+    margin: 100px 0px;
+
+}
+
+.berth-number-priority {
+    background: #6B9AE0;
+}
+
+.car-number {
+    background: #D9D9D9;
+    color: #535353;
+    padding: 70px 170px;
+    font-weight: 700;
+    font-size: 148px;
+    border-radius: 50px;
+}
 </style>
