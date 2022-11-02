@@ -16,11 +16,24 @@ import HelloWorld from './components/HelloWorld.vue'
       </nav>
     </div>
   </header> -->
-
-  <RouterView />
+  <div class="container">
+    <RouterView />
+  </div>
 </template>
 
 <style scoped>
+
+@font-face {
+  font-family: "Inter";
+  src: local("Inter"),
+   url(./fonts/Inter/static/Inter-Regular.ttf) format("truetype");
+}
+
+.container {
+  font-family: Inter;
+}
+
+
 /* header {
   line-height: 1.5;
   max-height: 100vh;

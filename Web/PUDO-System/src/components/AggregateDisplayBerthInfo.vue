@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="berth-car-number" 
-        :class= "{
+        :class="{
             'berth-car-number-text-red': isLessThanOneMinuteLeft,
             'berth-car-number-text-black': !isLessThanOneMinuteLeft,
             'berth-car-number-text-blink': isTimeUp
@@ -14,7 +14,7 @@
             {{ this.berthCarNumber }}
         </div>
         <div class="berth-status"
-        :class= "{
+        :class="{
             'berth-car-number-text-red': isLessThanOneMinuteLeft,
             'berth-car-number-text-black': !isLessThanOneMinuteLeft,
             'berth-car-number-text-blink': isTimeUp
@@ -48,16 +48,6 @@ export default {
 
             const starter = 0
 
-            // const startTimer = setInterval(() => {
-            //     console.log("Starting Aggregate Display")
-            //     starter += 1;
-            //     while (starter != 1) {
-            //         clearInterval(startTimer)
-            //         console.log("Starter: " + starter)
-            //     } 
-            //     clearInterval(startTimer)
-            //  }, 1000)
-
             console.log("Started Timer")
             console.log("Berth Car Number " + this.berthCarNumber)
             // const end = new Date(((new Date()).getTime() + 120000))
@@ -69,7 +59,7 @@ export default {
             // } else {
             //     const end = this.berthTime
             // }
-    
+
             console.log("Berth End Time: " + end)
 
             console.log("Now " + new Date())
@@ -186,7 +176,7 @@ export default {
 }
 
 .berth-car-number-text-red {
-    color: red;
+    color: #E10F0F;
 }
 
 .berth-car-number-text-blink {
@@ -211,7 +201,7 @@ export default {
 }
 
 .berth-status-text-red {
-    color: red;
+    color: #E10F0F;
 }
 
 .berth-status-text-blink {

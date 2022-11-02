@@ -24,6 +24,7 @@
                     :backgroundColorWhite=true
                     @update-berth="updateBerth"
                     v-if="this.berthA2Time !== null"
+                    :key=this.berthA2Time
                 />
 
                 <AggregateDisplayBerthInfo 
@@ -32,6 +33,7 @@
                     :berthTime=berthA3Time
                     @update-berth="updateBerth"
                     v-if="this.berthA3Time !== null"
+                    :key=this.berthA3Time
                 />
 
                 <AggregateDisplayBerthInfo 
@@ -42,6 +44,7 @@
                     :backgroundColorWhite=true
                     @update-berth="updateBerth"
                     v-if="this.berthPwdTime !== null"
+                    :key=this.berthPwdTime
                 />
             </div>
             <div class="qr-code-section">
@@ -212,10 +215,14 @@ export default {
 
 .berth-title {
     flex-basis: 33%;
+    border-right-style: solid;
+    border-width: 7px;
 }
 
 .vehicle-title {
     flex-basis: 33%;
+    border-right-style: solid;
+    border-width: 7px;
 }
 
 .time-left-title {
