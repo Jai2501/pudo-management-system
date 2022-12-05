@@ -15,9 +15,14 @@ berthToUpdate = "berth-a-1"
 newBerthCarNumber = "SGJ 2501 L"
 
 def updateBerthCarNumber():
-    ref.child("berth-live-info").update({
-        berthToUpdate: newBerthCarNumber
-        })
+    # ref.child("berth-live-info").update({
+    #     berthToUpdate: newBerthCarNumber
+    # })
+
+    ref.child("arduino").update({
+        'ldr-value': 748746583768,
+        'car-present': False
+    })
 
     # print(ref.get()['berth-live-info']['berth-a-2'])
 
@@ -31,6 +36,7 @@ def run():
     print("Started...")
     while True:
         print("Running...")
+        updateBerthCarNumber()
 
         newBerthCarNumber = readCarPlate()
 

@@ -27,7 +27,7 @@
 
     <button @click="setBerthData('param')"> Click Me To Update </button>
 
-    <div class="">
+    <div class="statuses">
         <h1>Human and Traffic Crowd Status Manual Update</h1>
         <div class="human-crowd-status">
             <p>Human Crowd Status</p>
@@ -39,8 +39,14 @@
         </div>
     </div>
 
-    <button @click="setCrowdStatusData"> Click Me To Update </button>
-     
+     <button @click="setCrowdStatusData"> Click Me To Update </button>
+
+    <div class="phone-number-workaround">
+        <h1>Phone Number OTP Workaround</h1>
+         <p>Phone Number</p>
+        <input type="tel" placeholder="{{ this.phoneNumber }}" v-model="this.phoneNumber">
+    </div>
+    <button @click="setPhoneNumber"> Click Me To Update </button>     
 </div>
 </template>
 
@@ -58,10 +64,33 @@ export default {
             berthA4CarNumber: null,
             berthPwdCarNumber: null,
             humanCrowdStatusLevel: null,
-            trafficStatusLevel: null
+            trafficStatusLevel: null,
+            phoneNumber: null
         }
     },
     methods: {
+        async setPhoneNumber() {
+            console.log("Updating" + this.phoneNumber)
+
+            const db = database
+            update(ref(db, 'user-verification-bypass'), {
+                'phone-number': this.phoneNumber,
+            })
+        },
+        async loadPhoneNumber() {
+            console.log("Loading Phone Number")
+
+            const db = database
+
+            const userVerificationBypassRef = ref(db, 'user-verification-bypass');
+
+            onValue(userVerificationBypassRef, (snapshot) => {
+                const data = snapshot.val()
+                console.log(data['phone-number'])
+
+                this.phoneNumber = data['phone-number']
+            })
+        },
         async loadBerthData() {
             console.log("Loading Live Berth Data")
 
@@ -125,6 +154,7 @@ export default {
         console.log("Mounted")
         this.loadBerthData()
         this.loadCrowdStatusData()
+        this.loadPhoneNumber()
     }
 }
 </script>

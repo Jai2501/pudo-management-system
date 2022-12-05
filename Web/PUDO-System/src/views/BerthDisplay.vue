@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-      <div class="berth-number"
+      <!-- <div class="berth-number"
       :class="{
           'berth-number-priority': this.isPriority
       }">
           {{ this.berthDisplayTitle }}
-      </div>
+      </div> -->
       <div class="car-number">
             {{ this.berthCarNumber }}
       </div>
@@ -78,6 +78,8 @@ export default {
     justify-content: center;
     align-items: center;
     text-align: center;
+    height: 100vh;
+    background: black;
 }
 
 .berth-number {
@@ -95,8 +97,12 @@ export default {
 }
 
 .car-number {
-    background: #D9D9D9;
-    color: #535353;
+    /* background: #D9D9D9;
+    color: #535353; */
+
+    background: #000;
+    color: #fff;
+
     padding: 70px 170px;
     font-weight: 700;
     font-size: 148px;

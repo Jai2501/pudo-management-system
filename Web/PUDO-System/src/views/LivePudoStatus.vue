@@ -99,6 +99,8 @@ import LivePudoStatusBerthInfo from "../components/LivePudoStatusBerthInfo.vue"
 // :src="require(`../assets/restaurantPhotos/${restaurant.photo}.jpeg`)"
 
 export default {
+    // Check timer not runs when berth number = "-"
+    
     name: "LivePudoStatus",
     components: {
         LivePudoStatusBerthInfo
@@ -203,14 +205,16 @@ export default {
                 this.berthA1LessTimeLeft = false
                 clearInterval(timerForBerthAOne)
 
-                timerForBerthAOne = setInterval(() => {
-                    const now = new Date().getTime()
+                if (!(this.berthA1CarNumber === "-")) {
+                    timerForBerthAOne = setInterval(() => {
+                        const now = new Date().getTime()
 
-                    if (this.berthA1TimeLeft - now <= this.millisecondsInAMinute) {
-                        this.berthA1LessTimeLeft = true
-                    }
-
-                }, 1000)
+                        if (this.berthA1TimeLeft - now <= this.millisecondsInAMinute) {
+                            console.log("Less time for berth A1")
+                            this.berthA1LessTimeLeft = true
+                        }
+                    }, 1000)
+                }
             })
 
             onValue(liveBerthInfoRef, (snapshot) => {
@@ -222,14 +226,16 @@ export default {
                 this.berthA2LessTimeLeft = false
                 clearInterval(timerForBerthATwo)
 
-                timerForBerthATwo = setInterval(() => {
-                    const now = new Date().getTime()
+                if (!(this.berthA2CarNumber === "-")) {
+                    timerForBerthATwo = setInterval(() => {
+                        const now = new Date().getTime()
 
-                    if (this.berthA2TimeLeft - now <= this.millisecondsInAMinute) {
-                        this.berthA2LessTimeLeft = true
-                    }
-
-                }, 1000)
+                        if (this.berthA2TimeLeft - now <= this.millisecondsInAMinute) {
+                            console.log("Less time for berth A2")
+                            this.berthA2LessTimeLeft = true
+                        }
+                    }, 1000)
+                }
             })
 
             onValue(liveBerthInfoRef, (snapshot) => {
@@ -241,14 +247,16 @@ export default {
                 this.berthA3LessTimeLeft = false
                 clearInterval(timerForBerthAThree)
 
-                timerForBerthAThree = setInterval(() => {
-                    const now = new Date().getTime()
+                if (!(this.berthA3CarNumber === "-")) {
+                    timerForBerthAThree = setInterval(() => {
+                        const now = new Date().getTime()
 
-                    if (this.berthA3TimeLeft - now <= this.millisecondsInAMinute) {
-                        this.berthA3LessTimeLeft = true
-                    }
-
-                }, 1000)
+                        if (this.berthA3TimeLeft - now <= this.millisecondsInAMinute) {
+                            console.log("Less time for berth A3")
+                            this.berthA3LessTimeLeft = true
+                        }
+                    }, 1000)
+                }
             })
 
             onValue(liveBerthInfoRef, (snapshot) => {
@@ -260,14 +268,16 @@ export default {
                 this.berthPwdLessTimeLeft = false
                 clearInterval(timerForBerthPwd)
 
-                timerForBerthPwd = setInterval(() => {
-                    const now = new Date().getTime()
+                if (!(this.berthPwdCarNumber === "-")) {
+                    timerForBerthPwd = setInterval(() => {
+                        const now = new Date().getTime()
 
-                    if (this.berthPwdTimeLeft - now <= this.millisecondsInAMinute) {
-                        this.berthPwdLessTimeLeft = true
-                    }
-
-                }, 1000)
+                        if (this.berthPwdTimeLeft - now <= this.millisecondsInAMinute) {
+                            console.log("Less time for berth PWD")
+                            this.berthPwdLessTimeLeft = true
+                        }
+                    }, 1000)
+                }
             })
         },
     },
@@ -281,6 +291,15 @@ export default {
 </script>
 
 <style scoped>
+/* 
+1. Bold text
+2. Only time flashes
+3. Flashing Style
+4. Spaces
+5. No car so - for car, time -:-- 
+6. Live QR Code
+7. QR code text -> reduce size
+*/
 .container {
     background-color: #fff;
 }
@@ -317,6 +336,10 @@ export default {
     /* padding: 10px; */
     border-left: 1px solid #66AEAA;
     margin: 10px 0px;
+}
+
+.berth-details {
+    margin: 10px 3px;
 }
 
 .raffles-city-logo {

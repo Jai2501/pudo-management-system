@@ -5,6 +5,9 @@ import AggregateDisplay from '../views/AggregateDisplay.vue'
 import Backup from '../views/Backup.vue'
 import BerthDisplay from '../views/BerthDisplay.vue'
 import LivePudoStatus from "../views/LivePudoStatus.vue"
+import BypassOtpViewHack from "../views/BypassOtpViewHack.vue"
+import AggregateDisplayDemo from "../views/AggregateDisplayDemo.vue"
+import BayLightIndicatorDisplay from "../views/BayLightIndicatorDisplay.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,7 +45,23 @@ const router = createRouter({
       path: '/backup',
       name: 'Backup',
       component: Backup
-    }
+    },
+    {
+      path: '/otp-hack',
+      name: 'BypassOtpForApp',
+      component: BypassOtpViewHack
+    },
+    {
+      path: '/aggregate-display-demo',
+      name: 'AggregateDisplayDemo',
+      component: AggregateDisplayDemo
+    },
+    {
+      path: '/bay-light-indicator-display',
+      name: 'BayLightIndicatorDisplay',
+      props: true,
+      component: BayLightIndicatorDisplay
+    },
   ]
 })
 
